@@ -1,3 +1,5 @@
+Vue.config.devtools = true;
+
 // localStorageの設定(cookieみたいなやつ、サーバーに値を保持するのではなくてこのlocalStorageに保持する)
 // 実際にストレージに保存されるデータのフォーマットは、JSONになる
 var STORAGE_KEY = 'todos-vuejs-demo'
@@ -39,23 +41,18 @@ const app = new Vue({
         comment: comment.value,
         state: 0
       })
-      console.log(this.todos[(this.todos.length)-1])
       comment.value = ''
     },
     doChangeState: function(item){
       if (item.state==1){
-        console.log(item.comment)
         this.complete.push({
-          id: todoStorage.uid++,
           comment: item.comment
         })
-          var index = this.todos.indexOf(item)
-          this.todos.splice(index,1)        
+        var index = this.todos.indexOf(item)
+        this.todos.splice(index,1)
       }else{
         item.state=1
       }
-      console.log(this.complete[0])
-      console.log(this.complete.length)
     },
     doRemove: function(item){
       var index = this.todos.indexOf(item)
@@ -84,6 +81,133 @@ const app = new Vue({
       return this.options.reduce(function(a,b){
         return Object.assign(a, {[b.value]: b.label})
       },{})
+    }
+  }
+})
+
+var app1 = new Vue({
+	el: '#app1',
+	data:{
+			bangohan:"餃子定食"
+	}
+})
+
+var app2 = new Vue({
+	el: '#app2',
+	data:{
+		wishlists: [
+			{item: "ルンバ"},
+			{item: "水拭きルンバ"},
+			{item: "オーブンレンジ"}
+		]
+	},
+	methods: {
+		addItemList(){
+			if(this.addItem){
+				this.wishlists.push({
+					item: this.addItem
+				});
+			}
+			this.addItem =''
+		}
+	}
+})
+
+var app3 = new Vue({
+	el: '#app3',
+	methods:{
+		displayAlert(){
+			alert("alert表示")
+		}
+	}
+})
+
+var app4 = new Vue({
+	el: '#app4',
+	data:{
+		show: true,
+		iiiii: true,
+	},
+	methods: {
+		changeShow(){
+			this.show = !this.show
+		},
+		changeIf(){
+			this.iiiii = !this.iiiii
+		}
+	}
+
+})
+
+var app5 = new Vue({
+	el: '#app5',
+	data:{
+		message: 1
+	},
+	methods:{
+		plus1(){
+			this.message += 1
+		},
+		minus1(){
+			this.message -= 1
+		}
+	}
+})
+
+var app6 = new Vue({
+	el: '#app6',
+	data:{
+		selectSize: 'S',
+		lists:[
+			{size: 'S', value: 'S'},
+			{size: 'M', value: 'M'},
+			{size: 'L', value: 'L'}
+		]
+	}
+})
+
+var app7 = new Vue({
+	el: '#app7',
+	data:{
+		message: ''
+	}
+})
+
+Vue.component('component1',{
+	template: '<p>Component1:チョココルネ</p>'
+})
+
+var app8 = new Vue({
+	el:'#app8'
+})
+
+var app9 = new Vue({
+	el:"#app9",
+	data:{a: false}
+})
+
+var app10 = new Vue({
+	el:"#app10",
+  data:{
+    list:[
+      {label:'1', value:'1'},
+      {label:'2', value:'2'},
+      {label:'3', value:'3'},
+      {label:'4', value:'4'},
+      {label:'5', value:'5'},
+    ],
+    checked:[],
+    button: false
+  },
+  methods:{
+    check_radio(){
+      if( 2 <= this.checked.length){
+        this.button = true
+        console.log('yes')
+        console.log(this.checked)
+      }else{
+        this.button = ''
+      }
     }
   }
 })
