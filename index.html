@@ -123,12 +123,25 @@
 		</div>
 
 		<div id ="app10" v-cloak>
+      <p>----------⚠ダメな例（clickイベントでlengthを表示させてそのあとにchecked配列に値が入ってくるためずれが出ている）---------------------</p>
       <p>三つ以上選択してください</p>
       <label v-for="label in list">
         <input type="checkbox" v-model="checked" v-bind:value="label.value" v-on:click="check_radio()">{{label.value}}</input>
       </label>
       <span>chacked list: {{checked}}</span>
+      <span>length:{{length}}</span>
 			<button :disabled="!button">次へ</button>
+    </div>
+
+    <div id ="app11" v-cloak>
+      <p>-------- ☆よい例（computedを使ってボタンにtrue/falseを返す。　v-on:changeイベントで配列に値が格納されてからlengthをとっている）--------</p>
+      <p>三つ以上選択してください</p>
+      <label v-for="label in list">
+        <input type="checkbox" v-model="checked" v-bind:value="label.value" v-on:click="onclick()" v-on:change="checkLength()">{{label.value}}</input>
+      </label>
+      <span>chacked list: {{checked}}</span>
+      <span>length:{{length}}</span>
+			<button :disabled="!checkedCount">次へ</button>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/vue"></script>
 </html>

@@ -197,18 +197,54 @@ var app10 = new Vue({
       {label:'5', value:'5'},
     ],
     checked:[],
-    button: false
+    button: false,
+    length: 0,
   },
   methods:{
     check_radio(){
-      if( 2 <= this.checked.length){
+      if( 3 <= this.checked.length){
         this.button = true
-        console.log('yes')
-        console.log(this.checked)
       }else{
-        this.button = ''
+        this.button = false
+      }
+      console.log(this.checked)
+      this.length = this.checked.length
+      console.log(this.length)
+    }
+  }
+})
+
+var app11 = new Vue({
+	el:"#app11",
+  data:{
+    list:[
+      {label:'1', value:'1'},
+      {label:'2', value:'2'},
+      {label:'3', value:'3'},
+      {label:'4', value:'4'},
+      {label:'5', value:'5'},
+    ],
+    checked:[],
+    length: 0,
+    logs: []
+  },
+  methods:{
+    checkLength(){
+      this.length = this.checked.length
+    },
+    onclick(){
+      console.log('clicking')
+    }
+  },
+  computed:{
+    checkedCount(){
+      if(this.checked.length >= 3){
+        return true
+      }else{
+        return false
       }
     }
   }
 })
+
 
