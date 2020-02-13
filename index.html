@@ -5,143 +5,179 @@
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <title>sample_project</title>
     <style type="text/css">
-			[v-cloak] {
+    [v-cloak] {
 			 display: none;
 			}
+      .all{
+        text-align:center;
+        margin-top:40px;
+        margin-bottom:100px;
+      }
+      table{
+        margin-left:40%;
+      }
+
 		</style>
   </head>
   <body>
-    <div id="app">
-      <label v-for="label in options">
-        <input type="radio" v-model="current" v-bind:value="label.value">{{label.label}}
-      </label>
+    <div class="all">
+      <div id="app">
+        <label v-for="label in options" v-cloak>
+          <input type="radio" v-model="current" v-bind:value="label.value">{{label.label}}
+        </label>
 
-      ({{computedTodos.length}}件を表示)
+        ({{computedTodos.length}}件を表示)
 
-      <table>
-        <thead>
-          <tr>
-            <th class = "id">ID</th>
-            <th class = "comment">コメント</th>
-            <th class = "state">状態</th>
-            <th class = "button"></th>
+        <table>
+          <thead>
+            <tr>
+              <th class = "id">ID</th>
+              <th class = "comment">コメント</th>
+              <th class = "state">状態</th>
+              <th class = "button"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="item in computedTodos" v-bind:key="item.id">
+              <th>{{item.id}}</th>
+              <td>{{item.comment}}</td>
+              <td class="state">
+                <button v-on:click="doChangeState(item)">
+                  {{labels[item.state]}}
+                </button>
+              </td>
+              <td class="button">
+                <button v-on:click.ctrl="doRemove(item)">
+                  削除
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h2>新しい作業の追加</h2>
+        <!-- ボタンを押したときにdoAddメソッドが呼び出される -->
+        <form class="add-form" v-on:submit.prevent="doAdd">
+
+          コメント<input type ="text" ref="comment">
+
+          <button type ="submit">追加</button>
+        </form>
+
+        <h2>完了した作業</h2>
+        <table>
+          <tr v-for="thing in complete">
+            <th>{{thing.id}}</th>
+            <td>{{thing.comment}}</td>
           </tr>
-        </thead>
-        <tbody>
-          <tr v-for="item in computedTodos" v-bind:key="item.id">
-            <th>{{item.id}}</th>
-            <td>{{item.comment}}</td>
-            <td class="state">
-              <button v-on:click="doChangeState(item)">
-                {{labels[item.state]}}
-              </button>
-            </td>
-            <td class="button">
-              <button v-on:click.ctrl="doRemove(item)">
-                削除
-              </button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+        </table>
+      </div>
 
-      <h2>新しい作業の追加</h2>
-      <!-- ボタンを押したときにdoAddメソッドが呼び出される -->
-      <form class="add-form" v-on:submit.prevent="doAdd">
+      <div id="app1" v-cloak>
+        <p>今日のよるごはん：</p>
+        <p>{{bangohan}}</p>
+        <input v-model="bangohan">
+      </div>
 
-        コメント<input type ="text" ref="comment">
+      <div id="app2" v-cloak>
+        <p>Wish list</p>
+        <ol>
+          <li v-for="wishlist in wishlists">
+            {{wishlist.item}}
+          </li>
+        </ol>
+        <input type="text" v-model="addItem" placeholder="item name">
+        <button v-on:click="addItemList()">add item</button>
+      </div>
 
-        <button type ="submit">追加</button>
-      </form>
+      <div id="app3" v-cloak>
+        <button v-on:click="displayAlert()">alert</button>
+      </div>
 
-      <h2>完了した作業</h2>
-      <table>
-        <tr v-for="thing in complete">
-          <th>{{thing.id}}</th>
-          <td>{{thing.comment}}</td>
-        </tr>
-      </table>
+      <div id="app4" v-cloak>
+        <button v-on:click="changeShow()">v-show</button>
+          <p v-show="show">節約生活</p>
+        <button v-on:click="changeIf()">v-if</button>
+          <p v-if="iiiii">シンガタコロナウイルス</p>
+      </div>
+
+      <div id="app5" v-cloak>
+        <p>{{message}}</p>
+        <button v-on:click="plus1()">+1</button>
+        <button v-on:click="minus1()">-1</button>
+      </div>
+
+      <div id="app6" v-cloak>
+        <select v-model="selectSize">
+          <option v-for="list in lists" v-bind:value="list.value">
+            {{list.size}}
+          </option>
+        </select>
+        <p>select size: {{selectSize}}</p>
+      </div>
+
+      <div id="app7">
+        <input type="text" v-model="message">
+        <p>message is:{{message}}</p>
+      </div>
+
+      <div id="app8" v-cloak>
+        <Component1></Component1>
+      </div>
+
+      <div id="app9" v-cloak>
+        <input type="checkbox" v-model="a">同意します</input>
+        <button :disabled="!a">次へ</button>
+        <br>
+        <br>
+      </div>
+
+      <div id ="app10" v-cloak>
+        <p>----------⚠ダメな例（clickイベントでlengthを表示させてそのあとにchecked配列に値が入ってくるためずれが出ている）---------------------</p>
+        <p>三つ以上選択してください</p>
+        <label v-for="label in list">
+          <input type="checkbox" v-model="checked" v-bind:value="label.value" v-on:click="check_radio()">{{label.value}}</input>
+        </label>
+        <span>chacked list: {{checked}}</span>
+        <span>length:{{length}}</span>
+        <button :disabled="!button">次へ</button>
+      </div>
+
+      <div id ="app11" v-cloak>
+        <p>-------- ☆よい例（computedを使ってボタンにtrue/falseを返す。　v-on:changeイベントで配列に値が格納されてからlengthをとっている）--------</p>
+        <p>三つ以上選択してください</p>
+        <label v-for="label in list">
+          <input type="checkbox" v-model="checked" v-bind:value="label.value" v-on:click="onclick()" v-on:change="checkLength()">{{label.value}}</input>
+        </label>
+        <span>chacked list: {{checked}}</span>
+        <span>length:{{length}}</span>
+        <button :disabled="!checkedCount">次へ</button>
+        <br>
+        <br>
+      </div>
+
+      <div id="app12" v-cloak>
+        <p>***************************************************************************************************</p>
+        <button v-on:click="next_question()" v-model="question" onclick="disabled = true;">スタート</button>
+        <p>問題：{{question}}</p>
+        <p>{{max}}/{{questions}}</p>
+        <label>答え: <input type="text" v-model="answer"></label>
+        <button v-on:click="check_answer()">答え合わせ</button>
+        <p>{{checked_answer}}</p>
+        <button v-on:click="next_question()">次の問題</button>
+      </div>
+
+      <div id="app13">
+        <h1>Bitcoin Price Index</h1>
+        <div v-for="currency in info" class="currency">
+          {{ currency.description }}:
+          <span class="lighten">
+            <span v-html="currency.symbol"></span>{{ currency.rate_float | currencydecimal }}
+          </span>
+        </div>
+      </div>
+
+      <script src="https://cdn.jsdelivr.net/npm/vue"></script>
     </div>
-
-    <div id="app1" v-cloak>
-			<p>今日のよるごはん：</p>
-			<p>{{bangohan}}</p>
-			<input v-model="bangohan">
-		</div>
-
-		<div id="app2" v-cloak>
-			<p>Wish list</p>
-			<ol>
-				<li v-for="wishlist in wishlists">
-					{{wishlist.item}}
-				</li>
-			</ol>
-			<input type="text" v-model="addItem" placeholder="item name">
-			<button v-on:click="addItemList()">add item</button>
-		</div>
-
-		<div id="app3" v-cloak>
-			<button v-on:click="displayAlert()">alert</button>
-		</div>
-
-		<div id="app4" v-cloak>
-			<button v-on:click="changeShow()">v-show</button>
-				<p v-show="show">節約生活</p>
-			<button v-on:click="changeIf()">v-if</button>
-				<p v-if="iiiii">シンガタコロナウイルス</p>
-		</div>
-
-		<div id="app5" v-cloak>
-			<p>{{message}}</p>
-			<button v-on:click="plus1()">+1</button>
-			<button v-on:click="minus1()">-1</button>
-		</div>
-
-		<div id="app6" v-cloak>
-			<select v-model="selectSize">
-				<option v-for="list in lists" v-bind:value="list.value">
-					{{list.size}}
-				</option>
-			</select>
-			<p>select size: {{selectSize}}</p>
-		</div>
-
-		<div id="app7">
-      <input type="text" v-model="message">
-			<p>message is:{{message}}</p>
-		</div>
-
-		<div id="app8" v-cloak>
-			<Component1></Component1>
-		</div>
-
-		<div id="app9" v-cloak>
-			<input type="checkbox" v-model="a">同意します</input>
-			<button :disabled="!a">次へ</button>
-			<br>
-			<br>
-		</div>
-
-		<div id ="app10" v-cloak>
-      <p>----------⚠ダメな例（clickイベントでlengthを表示させてそのあとにchecked配列に値が入ってくるためずれが出ている）---------------------</p>
-      <p>三つ以上選択してください</p>
-      <label v-for="label in list">
-        <input type="checkbox" v-model="checked" v-bind:value="label.value" v-on:click="check_radio()">{{label.value}}</input>
-      </label>
-      <span>chacked list: {{checked}}</span>
-      <span>length:{{length}}</span>
-			<button :disabled="!button">次へ</button>
-    </div>
-
-    <div id ="app11" v-cloak>
-      <p>-------- ☆よい例（computedを使ってボタンにtrue/falseを返す。　v-on:changeイベントで配列に値が格納されてからlengthをとっている）--------</p>
-      <p>三つ以上選択してください</p>
-      <label v-for="label in list">
-        <input type="checkbox" v-model="checked" v-bind:value="label.value" v-on:click="onclick()" v-on:change="checkLength()">{{label.value}}</input>
-      </label>
-      <span>chacked list: {{checked}}</span>
-      <span>length:{{length}}</span>
-			<button :disabled="!checkedCount">次へ</button>
-    </div>
-    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+  </body>
 </html>

@@ -1,3 +1,5 @@
+import axios from 'axios' //追記
+import VueAxios from 'vue-axios' //追記
 Vue.config.devtools = true;
 
 // localStorageの設定(cookieみたいなやつ、サーバーに値を保持するのではなくてこのlocalStorageに保持する)
@@ -243,6 +245,73 @@ var app11 = new Vue({
       }else{
         return false
       }
+    }
+  }
+})
+
+var app12 = new Vue({
+  el:"#app12",
+  data:{
+    word_list:[
+      {jp:"レンズ豆", en:"lentil"},
+      {jp:"チーズ", en:"cheeze"},
+      {jp:"ねずみ", en:"mouse"},
+      {jp:"アンチョビ", en:"anchovy"},
+      {jp:"トマトスパスタ", en:"pasta with tomato sauce"},
+      {jp:"フランスパン", en:"French bread"},
+    ],
+    true:"正解!",
+    false:"不正解(-_-)",
+    questions:6,
+    correct_count:0,
+    answer:"",
+    question:"",
+    checked_answer:"",
+    index:-1,
+    true_flg:false,
+    complete:""
+  },
+  methods:{
+    next_question(){
+      this.index++
+      this.checked_answer=""
+      this.answer=""
+      this.question=this.word_list[this.index].jp
+    },
+    check_answer(){
+      if(this.answer == this.word_list[this.index].en){
+        this.checked_answer = this.true
+        this.correct_count++
+      }else{
+        this.checked_answer = this.false
+      }
+      if(this.correct_count == this.questions){
+
+      }
+    }
+  },
+  computed:{
+    max(){
+      return this.complete=this.correct_count
+    }
+  }
+})
+
+var app13 = new Vue({
+  el: '#app13',
+  data () {
+    return {
+      info: null
+    }
+  },
+  mounted () {
+    axios
+      .get('https://api.coindesk.com/v1/bpi/currentprice.json')
+      .then(response => (this.info = response.data.bpi))
+  },
+  filters: {
+    currencydecimal (value) {
+      return value.toFixed(2)
     }
   }
 })
